@@ -10,7 +10,6 @@ import com.tesco.mewbase.log.Log;
 import com.tesco.mewbase.log.LogManager;
 import com.tesco.mewbase.log.impl.file.FileAccess;
 import com.tesco.mewbase.log.impl.file.FileLogManager;
-import com.tesco.mewbase.log.impl.file.FileLogManagerOptions;
 import com.tesco.mewbase.log.impl.file.faf.AFFileAccess;
 import com.tesco.mewbase.server.Server;
 import com.tesco.mewbase.server.ServerOptions;
@@ -45,9 +44,7 @@ public class ServerImpl implements Server {
         this.vertx = vertx;
         this.serverOptions = serverOptions;
         FileAccess faf = new AFFileAccess(vertx);
-        FileLogManagerOptions sOptions = serverOptions.getFileLogManagerOptions();
-        FileLogManagerOptions options = sOptions == null ? new FileLogManagerOptions() : sOptions;
-        this.logManager = new FileLogManager(vertx, options, faf);
+        this.logManager = new FileLogManager(vertx, serverOptions, faf);
         this.docManager = new LmdbDocManager(serverOptions.getDocsDir(), vertx);
         this.functionManager = new FunctionManagerImpl(docManager, logManager);
     }

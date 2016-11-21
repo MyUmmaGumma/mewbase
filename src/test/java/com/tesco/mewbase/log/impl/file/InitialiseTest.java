@@ -3,6 +3,7 @@ package com.tesco.mewbase.log.impl.file;
 import com.tesco.mewbase.bson.BsonObject;
 import com.tesco.mewbase.client.MewException;
 import com.tesco.mewbase.log.Log;
+import com.tesco.mewbase.server.ServerOptions;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.UUID;
 
-import static com.tesco.mewbase.log.impl.file.FileLogManagerOptions.DEFAULT_MAX_LOG_CHUNK_SIZE;
+import static com.tesco.mewbase.server.ServerOptions.DEFAULT_MAX_LOG_CHUNK_SIZE;
 import static org.junit.Assert.*;
 
 /**
@@ -30,7 +31,7 @@ public class InitialiseTest extends LogTestBase {
         String subDir = UUID.randomUUID().toString();
         File dir = new File(ftestDir, subDir);
         assertFalse(dir.exists());
-        options = new FileLogManagerOptions().setLogDir(dir.getPath());
+        options = new ServerOptions().setLogDir(dir.getPath());
         startLog(options, TEST_CHANNEL_1);
         assertTrue(dir.exists());
     }
@@ -55,7 +56,7 @@ public class InitialiseTest extends LogTestBase {
         File ld = new File(ftestDir, subDir);
         assertFalse(ld.exists());
         logDir = ld;
-        options = new FileLogManagerOptions().setLogDir(ld.getPath());
+        options = new ServerOptions().setLogDir(ld.getPath());
         startLog(options, TEST_CHANNEL_1);
         verifyInitialFiles(ld, TEST_CHANNEL_1);
     }
@@ -292,7 +293,7 @@ public class InitialiseTest extends LogTestBase {
 
     @Test
     public void test_start_max_record_size_too_large(TestContext testContext) throws Exception {
-        options = new FileLogManagerOptions().setMaxRecordSize(DEFAULT_MAX_LOG_CHUNK_SIZE + 1);
+        options = new ServerOptions().setMaxRecordSize(DEFAULT_MAX_LOG_CHUNK_SIZE + 1);
         try {
             startLog();
             fail("should throw exception");
@@ -303,7 +304,7 @@ public class InitialiseTest extends LogTestBase {
 
     @Test
     public void test_start_preallocate_size_too_large(TestContext testContext) throws Exception {
-        options = new FileLogManagerOptions().setPreallocateSize(DEFAULT_MAX_LOG_CHUNK_SIZE + 1);
+        options = new ServerOptions().setPreallocateSize(DEFAULT_MAX_LOG_CHUNK_SIZE + 1);
         try {
             startLog();
             fail("should throw exception");
@@ -314,7 +315,7 @@ public class InitialiseTest extends LogTestBase {
 
     @Test
     public void test_start_max_record_size_too_small(TestContext testContext) throws Exception {
-        options = new FileLogManagerOptions().setMaxRecordSize(0);
+        options = new ServerOptions().setMaxRecordSize(0);
         try {
             startLog();
             fail("should throw exception");
@@ -325,7 +326,7 @@ public class InitialiseTest extends LogTestBase {
 
     @Test
     public void test_max_log_chunk_size_too_small(TestContext testContext) throws Exception {
-        options = new FileLogManagerOptions().setMaxLogChunkSize(0);
+        options = new ServerOptions().setMaxLogChunkSize(0);
         try {
             startLog();
             fail("should throw exception");
@@ -336,7 +337,7 @@ public class InitialiseTest extends LogTestBase {
 
     @Test
     public void test_start_negative_preallocate_size(TestContext testContext) throws Exception {
-        options = new FileLogManagerOptions().setPreallocateSize(-1);
+        options = new ServerOptions().setPreallocateSize(-1);
         try {
             startLog();
             fail("should throw exception");

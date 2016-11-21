@@ -1,7 +1,6 @@
 package com.tesco.mewbase;
 
 import com.tesco.mewbase.client.ClientOptions;
-import com.tesco.mewbase.log.impl.file.FileLogManagerOptions;
 import com.tesco.mewbase.server.ServerOptions;
 import io.vertx.core.net.NetClientOptions;
 import io.vertx.core.net.NetServerOptions;
@@ -44,16 +43,10 @@ public class OptionsTest extends MewbaseTestBase {
     public void testServerOptions() throws Exception {
 
         ServerOptions options = new ServerOptions();
-        assertEquals(new NetServerOptions().setPort(ServerOptions.DEFAULT_PORT), options.getNetServerOptions());
-        assertEquals(new FileLogManagerOptions(), options.getFileLogManagerOptions());
-
+        assertEquals(new NetServerOptions().setPort(ServerOptions.DEFAULT_PORT), options.getNetServerOptions());       
         NetServerOptions netServerOptions2 = new NetServerOptions();
         options.setNetServerOptions(netServerOptions2);
         assertSame(netServerOptions2, options.getNetServerOptions());
-
-        FileLogManagerOptions fileLogManagerOptions2 = new FileLogManagerOptions();
-        options.setFileLogManagerOptions(fileLogManagerOptions2);
-        assertSame(fileLogManagerOptions2, options.getFileLogManagerOptions());
 
         String[] channels = new String[]{"foo", "bar"};
         assertNull(options.getChannels());

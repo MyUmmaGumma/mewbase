@@ -2,7 +2,6 @@ package com.tesco.mewbase;
 
 import com.tesco.mewbase.client.Client;
 import com.tesco.mewbase.client.ClientOptions;
-import com.tesco.mewbase.log.impl.file.FileLogManagerOptions;
 import com.tesco.mewbase.server.Server;
 import com.tesco.mewbase.server.ServerOptions;
 import io.vertx.core.net.NetClientOptions;
@@ -53,10 +52,10 @@ public class ServerTestBase extends MewbaseTestBase {
     }
 
     protected ServerOptions createServerOptions(File logDir) throws Exception {
-        FileLogManagerOptions fileLogManagerOptions = new FileLogManagerOptions().setLogDir(logDir.getPath());
         return new ServerOptions().setChannels(new String[]{TEST_CHANNEL_1, TEST_CHANNEL_2})
-                .setFileLogManagerOptions(fileLogManagerOptions).setBinders(new String[]{TEST_BINDER1})
-                .setDocsDir(testFolder.newFolder().getPath());
+                .setBinders(new String[]{TEST_BINDER1})
+                .setDocsDir(testFolder.newFolder().getPath())
+                .setLogDir(logDir.getPath());
     }
 
     protected ClientOptions createClientOptions() {
