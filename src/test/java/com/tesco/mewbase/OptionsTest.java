@@ -19,7 +19,8 @@ import static org.junit.Assert.*;
 public class OptionsTest extends MewbaseTestBase {
 
     private final static Logger log = LoggerFactory.getLogger(OptionsTest.class);
-
+    private static final int fsize = 4*1024;
+  
     @Test
     public void testClientOptions() throws Exception {
 
@@ -48,10 +49,30 @@ public class OptionsTest extends MewbaseTestBase {
         options.setNetServerOptions(netServerOptions2);
         assertSame(netServerOptions2, options.getNetServerOptions());
 
+        options.setDocsDir("foo");
+        assertSame("foo", options.getDocsDir());
+        
         String[] channels = new String[]{"foo", "bar"};
         assertNull(options.getChannels());
         options.setChannels(channels);
-        assertSame(channels, channels);
+        assertSame(channels, options.getChannels());
+        
+        String[] binders = new String[]{"foo", "bar"};
+        assertNull(options.getBinders());
+        options.setBinders(binders);
+        assertSame(binders, options.getBinders());
+        
+        options.setDocsDir("foo");
+        assertSame("foo", options.getDocsDir());
+        
+        options.setMaxLogChunkSize(fsize);
+        options.setMaxRecordSize(fsize);
+        options.setPreallocateSize(fsize);
+        options.setMaxRecordSize(fsize); 
+        
+        assert(options.getMaxLogChunkSize() == fsize);
+        assert(options.getPreallocateSize() == fsize);
+        assert(options.getMaxRecordSize() == fsize);
+        assert(options.getReadBufferSize() == fsize);
     }
-
 }
